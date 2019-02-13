@@ -1,0 +1,29 @@
+<nav id="sidebar">
+
+    <div class="sidebar-title">
+      <a href="/">
+      <span>전염병 확산 차단 방역을 위한
+        <br>권역화 분석 시스템</span></a>
+    </div>
+  
+    <div id="dismiss">
+      <span class="oi oi-x"></span>
+    </div>
+  
+    <div class="menus">
+      {% for menu in menus %}
+      <ul>
+        <li>
+          <a>{{ menu.caption|e }}</a>
+          <ul>
+            {% for submenu in menu.children %}
+            <li>
+              <a class="{% if submenu.href == active_menu_url %} active{% endif %}" href="{{ submenu.href }}">{{ submenu.caption|e }}</a>
+            </li>
+            {% endfor %}
+          </ul>
+        </li>
+      </ul>
+      {% endfor %}
+    </div>
+  </nav>

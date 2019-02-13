@@ -1,0 +1,30 @@
+<!-- extends layout -->
+{% extends "/layout/base.html" %}
+
+<!-- content -->
+{% block content_base %}
+
+<div id="content" class="d-flex flex-column">
+  <!-- nav top -->
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <span class="navbar-brand">전염병 확산 차단을 위한 권역화 방역 분석시스템</span>
+  </nav>
+  <main class="d-flex flex-column flex-grow" role="main">
+    <div class="my-auto footer-correction">
+      <!-- main content -->
+      {% block content %}{% endblock %}
+    </div>
+  </main>
+  <!-- fotter -->
+  {% include '/component/login_footer.html' %}
+</div>
+
+<!--  -->
+{% endblock %}
+
+<!-- footer -->
+{% block footer_base %}
+<!--  -->
+{%- block footer %}{% endblock -%}
+<!--  -->
+{% endblock %}

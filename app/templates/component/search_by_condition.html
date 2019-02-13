@@ -1,0 +1,21 @@
+{% macro render_search_by_condition(conditions, condition_key, condition_value) %}
+
+<div class="col-lg-6 mt-4">
+  <div class="form-row">
+    <div class="form-group col-4">
+      <select class="form-control" id="cond_key" name="cond_key">
+        {% for condition in conditions %}
+          <option value="{{condition.value}}" {%- if condition.value == condition_key -%} selected{% endif %}>{{condition.text}}</option>
+        {% endfor %}
+      </select>
+    </div>
+    <div class="form-group col">
+      <input type="text" class="form-control" id="cond_val" name="cond_val" placeholder="검색어를 입력하십시오" value="{{condition_value}}">
+    </div>
+    <div class="form-group col-3">
+      <button type="submit" class="btn btn-primary btn-block cursor-pointer">검색</button>
+    </div>
+  </div>
+</div>
+
+{% endmacro %}

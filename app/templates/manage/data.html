@@ -1,0 +1,144 @@
+{% from "component/render_field.html" import render_field %}
+<!--  -->
+{% from "component/pagination.html" import render_pagination %}
+
+<!-- menu active  -->
+{% set active_menu_url = "/manage/data" %} {% set active_menu_name = "데이터 관리" %}
+
+<!-- extends layout -->
+{% extends "/layout/base_content.html" %}
+
+<!-- title -->
+{% block title %}데이터 관리{% endblock %}
+
+<!-- head -->
+{% block head %}{% endblock %}
+
+<!-- content -->
+{% block content %}
+
+<!-- Button trigger modal -->
+<div class="mt-5 mb-5">
+  <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#removeCacheConfirm">
+    캐쉬 삭제
+  </button>
+  <button type="button" class="btn btn-primary float-right" data-toggle="modal" data-target="#batchProcessConfirm">
+    데이터 일괄 처리
+  </button>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="removeCacheConfirm" tabindex="-1" role="dialog" aria-labelledby="removeCacheConfirmTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">캐쉬 삭제 실행</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        클라이언트 반응 속도 개선을 위한 캐쉬를 삭제하시겠습니까?
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary btn-min-100" data-dismiss="modal">취소</button>
+        <button type="button" class="btn btn-danger" id="remove-cache-btn">실행</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="batchProcessConfirm" tabindex="-1" role="dialog" aria-labelledby="batchProcessConfirmTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">데이터 일괄 처리 실행</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        데이터 일괄 처리(데이터 최신화 및 분석)을 실행하시겠습니까?
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary btn-min-100" data-dismiss="modal">취소</button>
+        <button type="button" class="btn btn-danger" id="job-run-btn">실행</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="table-responsive">
+  <table class="table table-hover">
+    <thead class="thead-light">
+      <tr>
+        <th>NO</th>
+        <th>상태</th>
+        <th>시작시간</th>
+        <th>종료시간</th>
+        <th>소요시간</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for job in jobs.items %}
+      <tr>
+        <td>{{ job.JOB_NO }}</td>
+        <td class="d-none d-lg-table-cell">
+          {%- with badge_class = {'r' : 'badge-primary', 's': 'badge-success', 'f': 'badge-danger' } -%}
+          <span class="badge {{badge_class[job.JOB_STATE]}}">{{ job.JOB_STATE_NM() }}</span>
+          {%- endwith -%}
+        </td>
+        <td>{{ job.START_DT }}</td>
+        <td>{{ job.END_DT|default("", True) }}</td>
+        <td>{{ job.PROCESSING_TIME()|default("처리중", True) }}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+
+{{render_pagination(jobs)}}
+<!--  -->
+
+
+
+{% endblock %}
+
+<!-- footer -->
+{% block footer %}
+
+<script type="text/javascript">
+  $(document).ready(function () {
+    $("#remove-cache-btn").click(function () {
+      removeCacheTrigger();
+    });
+
+    $("#job-run-btn").click(function () {
+      dataBatchProcessTrigger();
+    });
+
+  });
+
+  function removeCacheTrigger() {
+    $.ajax({
+      type: "POST",
+      url: '/manage/data-remove-cache/trigger',
+      success: function (response) {
+        location.reload();
+      }
+    });
+  }
+
+  function dataBatchProcessTrigger() {
+    $.ajax({
+      type: "POST",
+      url: '/manage/data-batch/trigger',
+      success: function (response) {
+        location.reload();
+      }
+    });
+  }
+</script>
+
+{% endblock %}

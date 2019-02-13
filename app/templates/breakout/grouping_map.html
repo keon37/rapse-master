@@ -1,0 +1,68 @@
+<!-- menu active -->
+{% set active_menu_url = "/breakout/groupings/{}".format(diseaseType) %}
+<!--  -->
+{% set active_menu_name = "발생시 {} 권역설정".format(diseaseType.upper()) %}
+
+<!-- extends layout -->
+{% extends "/layout/base_map.html" %}
+
+<!-- title -->
+{% block title %}{{ active_menu_name }}{% endblock %}
+
+<!-- footer -->
+{% block footer %}
+
+<!-- Modal -->
+<div class="modal fade" id="pushNotificationModal" tabindex="-1" role="dialog" aria-labelledby="pushNotificationModalTitle"
+  aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLongTitle">모바일 사용자들에게 알림 메세지 발송하기</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <dl class="row">
+          <dt class="col-sm-2 text-right">권역 번호</dt>
+          <dd class="col-sm-10" id="push-notification-cluster-number"></dd>
+          <dt class="col-sm-2 text-right">권역 이름</dt>
+          <dd class="col-sm-10" id="push-notification-cluster-name"></dd>
+          <dt class="col-sm-2 text-right">포함 권역</dt>
+          <dd class="col-sm-10" id="push-notification-cluster-regions"></dd>
+        </dl>
+        <hr>
+        <form>
+          <div class="form-group row">
+            <label for="push-notification-message-title" class="col-sm-2 col-form-label text-right">제목</label>
+            <div class="col-sm-10">
+              <input type="text" class="form-control" id="push-notification-message-title" value="" placeholder="제목 입력">
+            </div>
+          </div>
+          <div class="form-group row">
+            <label for="push-notification-message-body" class="col-sm-2 col-form-label text-right">내용</label>
+            <div class="col-sm-10">
+              <textarea type="text" class="form-control" id="push-notification-message-body" value="" rows=3 placeholder="내용 입력"></textarea>
+            </div>
+          </div>
+        </form>
+        <p class="text-right">한번 발송한 메지지는 되돌릴 수 없습니다. 신중하게 작성해주십시오.</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">취소</button>
+        <button type="button" class="btn btn-primary" id="push-notification-send-btn">발송하기</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script type="text/javascript">
+  var grouping_no = "{{ grouping.GROUPING_NO }}";
+  var grouping_period = "{{ grouping.START_DATE }} ~ {{ grouping.END_DATE }}";
+  diseaseType = "{{ diseaseType }}";
+</script>
+
+<script type="text/javascript" src="{{ url_for('static', filename='js/script-map-grouping.js') }}"></script>
+
+{% endblock %}

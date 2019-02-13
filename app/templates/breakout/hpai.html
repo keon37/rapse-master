@@ -1,0 +1,70 @@
+<!-- menu active -->
+{% set active_menu_url = "/breakout/hpai" %}
+<!--  -->
+{% set active_menu_name = "발생시 HPAI 권역화" %}
+
+<!-- extends layout -->
+{% extends "/layout/base_map.html" %}
+
+<!-- title -->
+{% block title %}{{ active_menu_name }}{% endblock %}
+
+<!-- footer -->
+{% block footer %}
+
+<script type="text/javascript" src="{{ url_for('static', filename='js/script-map-breakout.js') }}"></script>
+
+<script type="text/javascript">
+  $(document).ready(function () {
+    var species = [{
+      label: "닭",
+      checked: true,
+    }, {
+      label: "오리",
+      // bind: "도압장"
+    }];
+  
+    var weights = [{
+      label: "도계/도압장",
+      default: 1
+    }, {
+      label: "사료공장",
+      default: 1
+    }, {
+      label: "종축장",
+      default: 1
+    }, {
+      label: "부화장",
+      default: 1
+    }, {
+      label: "가축분뇨처리장",
+      default: 1
+    }, {
+      label: "식용란판매업",
+      default: 1,    
+    }, {
+      label: "철새도래지",
+      default: 1,    
+    }];
+  
+    var optimizations = {
+      group: "optimization",
+      items: [{
+        label: "전체시설균등",
+        checked: true,
+      }, {
+        label: "도축장 중심",
+      }, {
+        label: "사료공장 중심",
+      }, {
+        label: "종축장 중심",
+      }]
+    };
+
+    initMapControlsForBreakout("hpai", species, weights, optimizations);
+    // $("#map-controls-go-button").trigger("click");
+  });
+
+</script>
+
+{% endblock %}

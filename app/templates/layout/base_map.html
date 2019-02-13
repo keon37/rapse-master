@@ -1,0 +1,27 @@
+<!-- extends layout -->
+{% extends "/layout/base.html" %}
+
+<!-- content -->
+{% block content_base %}
+<!--  -->
+{% include '/component/nav_left.html' %}
+
+<div id="content">
+  {% include '/component/nav_top.html' %}
+  <div id="map-wrapper">
+    {% include '/component/map.html' %}
+  </div>
+</div>
+
+<div class="overlay"></div>
+
+{% endblock %}
+
+<!-- footer -->
+{% block footer_base %}
+<!--  -->
+{% include '/component/map_templates_and_scripts.html' %}
+
+{%- block footer %}{% endblock -%}
+<!--  -->
+{% endblock %}

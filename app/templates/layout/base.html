@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta name="description" content="">
+  <meta name="author" content="">
+
+  <!-- Favicon -->
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+  <meta name="theme-color" content="#ffffff">
+
+  <title>{% block title %}{% endblock %}</title>
+
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="/bootstrap-4.1.1/css/bootstrap.min.css?q=20180719">
+  <link rel="stylesheet" href="/open-iconic/font/css/open-iconic-bootstrap.css?q=20180719">
+  <link rel="stylesheet" href="/fontawesome/css/font-awesome.min.css?q=20180719">
+  {% if isApp|default('false') == 'false' %}
+  <link rel="stylesheet" href="/bootstrap-slider-10.0.0/css/bootstrap-slider.min.css?q=20180719">
+  <link rel="stylesheet" href="/bootstrap-select-1.13.0-beta/css/bootstrap-select.min.css?q=20180719">
+  <link rel="stylesheet" href="/bootstrap-datepicker-1.8.0/css/bootstrap-datepicker.min.css?q=20180719">
+  {% endif %}
+  <link rel="stylesheet" href="/leaflet/leaflet.css?q=20180719" />
+  <link rel="stylesheet" href="/leaflet-plugin/leaflet.markercluster.css?q=20180719" />
+  <link rel="stylesheet" href="/leaflet-plugin/leaflet.markercluster.default.css?q=20180719" />
+  <link rel="stylesheet" href="/leaflet-plugin/leaflet.groupedlayercontrol.min.css?q=20180719" />
+  <link rel="stylesheet" href="/leaflet-plugin/leaflet.locatecontrol.min.css?q=20180719" />
+  <link rel="stylesheet" href="/leaflet-plugin/leaflet-routing-machine-3.2.8/leaflet-routing-machine.css?q=20180719" />
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+
+  <!-- Additional Head -->
+  {% block head %}{% endblock %}
+</head>
+
+<body>
+  <!-- content page -->
+  {%- block content_base %}{% endblock -%}
+
+  <script type="text/javascript">
+    var isApp = ("{{ isApp|default('false') }}" === 'true');
+  </script>
+
+  <script type="text/javascript" src="/js/jquery-3.3.1.min.js?q=20180719"></script>
+  {% if isApp|default('false') == 'false' %}
+  <script type="text/javascript" src="/js/popper.min.js?q=20180719"></script>
+  <script type="text/javascript" src="/bootstrap-datepicker-1.8.0/js/bootstrap-datepicker.min.js?q=20180719"></script>
+  <script type="text/javascript" src="/bootstrap-datepicker-1.8.0/locales/bootstrap-datepicker.ko.min.js?q=20180719"></script>
+  <script type="text/javascript" src="/js/jquery.mark.min.js?q=20180719"></script>
+  {% endif %}
+  <script type="text/javascript" src="/bootstrap-4.1.1/js/bootstrap.min.js?q=20180719"></script>
+
+  <script type="text/javascript" src="{{ url_for('static', filename='js/script.js') }}"></script>
+
+  {%- block footer_base %}{% endblock -%}
+</body>
+
+</html>

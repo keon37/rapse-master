@@ -1,0 +1,93 @@
+{% from "component/search_by_condition.html" import render_search_by_condition %}
+<!--  -->
+{% from "component/pagination.html" import render_pagination %}
+
+<!-- menu active  -->
+{% set active_menu_url = "/manage/users" %}
+<!--  -->
+{% set active_menu_name = "사용자 관리" %}
+
+<!-- extends layout -->
+{% extends "/layout/base_content.html" %}
+
+<!-- title -->
+{% block title %}사용자 관리{% endblock %}
+
+<!-- head -->
+{% block head %}{% endblock %}
+
+<!-- content -->
+{% block content %}
+
+  <form class="form-search" method="get" action="">
+    <div class="row">
+      <!-- 조건 검색 옵션 -->
+      {%- with conditions = [{'value': 'user_name', 'text': '사용자명'}, {'value': 'user_id', 'text': '아이디'}] -%} {{render_search_by_condition(conditions,
+      condition_key, condition_value)}} {%- endwith -%}
+    </div>
+  </form>
+
+  <h4 class="mt-4">결과 {{ '{0:,}'.format(users.total | int) }} 건</h4>
+
+  <div class="table-responsive">
+    <table class="table table-hover table-clickable-row">
+      <thead class="thead-light">
+        <tr>
+          <th>NO</th>
+          <th>아이디</th>
+          <th class="d-none d-lg-table-cell">권한</th>
+          <th>이름</th>
+          <th class="d-none d-md-table-cell">소속</th>
+          <th>연락처</th>
+          <th>이메일</th>
+          <th class="d-none d-lg-table-cell">사용승인</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for user in users.items %}
+        <tr data-href='/manage/users/{{ user.USER_NO }}'>
+          <td>{{ user.USER_NO }}</td>
+          <td>{{ user.USER_ID }}</td>
+          <td class="d-none d-lg-table-cell">
+            {%- with badge_class = {'admin' : 'badge-primary', 'user': 'badge-secondary' } -%}
+            <span class="badge {{badge_class[user.USER_ROLE]}}">{{ user.USER_ROLE_NM() }}</span>
+            {%- endwith -%}
+          </td>
+          <td>{{ user.USER_NM }}</td>
+          <td class="d-none d-md-table-cell">{{ user.USER_COMP }}</td>
+          <td>{{ user.USER_HP_NO }}</td>
+          <td class="d-none d-md-table-cell">{{ user.USER_EMAIL }}</td>
+          <td class="d-none d-lg-table-cell">
+            {% if user.APPROVAL == '1' %}
+            <span class="badge badge-success">승인</span>
+            {% else %}
+            <span class="badge badge-danger">미승인</span>
+            {% endif %}
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+
+  {{render_pagination(users)}}
+
+  <a href="/manage/users/create" role="button" class="btn btn-primary btn-sm">사용자 추가</a>
+
+{% endblock %}
+
+<!-- footer -->
+{% block footer %}
+
+<script type="text/javascript">
+  // highlight search keyword
+  $(document).ready(function () {
+    $('.table tbody').mark('{{condition_value}}');
+    // 테이블 row 단위로 클릭 가능하게 (사용자 화면에서 사용)
+    $(".table-clickable-row tbody tr").click(function () {
+      window.location = $(this).data("href");
+    });
+  });
+</script>
+
+{% endblock %}

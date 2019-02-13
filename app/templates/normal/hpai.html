@@ -1,0 +1,57 @@
+<!-- menu active -->
+{% set active_menu_url = "/normal/hpai" %}
+<!--  -->
+{% set active_menu_name = "평시 HPAI 권역화" %}
+
+<!-- extends layout -->
+{% extends "/layout/base_map.html" %}
+
+<!-- title -->
+{% block title %}{{ active_menu_name }}{% endblock %}
+
+<!-- footer -->
+{% block footer %}
+
+<script type="text/javascript" src="{{ url_for('static', filename='js/script-map-normal.js') }}"></script>
+
+<script type="text/javascript">
+  $(document).ready(function () {
+    var species = [{
+      label: "닭",
+      checked: true,
+      bind: "도계장"
+    }, {
+      label: "오리",
+      bind: "도압장"
+    }];
+  
+    var facilities = [{
+      label: "도계장",
+      checked: true
+    }, {
+      label: "도압장",
+      checked: false,
+      disabled: true,
+    }, {
+      label: "사료공장",
+      checked: true
+    }, {
+      label: "종축장",
+      checked: true
+    }, {
+      label: "부화장",
+      checked: true
+    }, {
+      label: "가축분뇨처리장",
+      checked: true
+    }, {
+      label: "철새도래지",
+      checked: true
+    }];
+
+    initMapControlsForNormal("hpai", species, facilities);
+  });
+
+</script>
+
+{% endblock %}

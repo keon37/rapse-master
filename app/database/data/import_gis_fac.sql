@@ -1,0 +1,2 @@
+LOAD DATA LOCAL INFILE "/Users/bpk/Works/ezfarm/2018/rapse/app/database/data/박건주_180723.csv" INTO TABLE gis_fac FIELDS TERMINATED BY "," OPTIONALLY ENCLOSED BY '"' LINES TERMINATED BY '\n' IGNORE 1 LINES
+(id, type, type_detail, species, name, addr, lat, lng, addr_shp, phone,  info, scale_fmd, scale_hpai, chicken, pig, cow, duck, production, newest);

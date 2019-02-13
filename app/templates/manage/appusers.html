@@ -1,0 +1,155 @@
+{% from "component/search_by_condition.html" import render_search_by_condition %}
+<!--  -->
+{% from "component/pagination.html" import render_pagination %}
+
+<!-- menu active  -->
+{% set active_menu_url = "/manage/appusers" %}
+<!--  -->
+{% set active_menu_name = "앱 사용자 관리" %}
+
+<!-- extends layout -->
+{% extends "/layout/base_content.html" %}
+
+<!-- title -->
+{% block title %}{{ active_menu_name }}{% endblock %}
+
+<!-- head -->
+{% block head %}
+<link rel="stylesheet" href="/css/fix-scroll.css">
+<!--  -->
+{% endblock %}
+
+<!-- content -->
+{% block content %}
+
+<form class="form-search" method="get" action="">
+  <div class="row">
+    <!-- 조건 검색 옵션 -->
+    {%- with conditions = [{'value': 'os', 'text': '운영체재'}, {'value': 'disease_type', 'text': '질병타입'}] -%}
+    <!--  -->
+    {{render_search_by_condition(conditions, condition_key, condition_value)}}
+    <!--  -->
+    {%- endwith -%}
+  </div>
+</form>
+
+<h4 class="mt-4">결과 {{ '{0:,}'.format(users.total | int) }} 건</h4>
+
+<div class="table-responsive">
+  <table class="table">
+    <thead class="thead-light">
+      <tr>
+        <th>생성일</th>
+        <th>질병타입</th>
+        <th class="d-none d-md-table-cell">운영체재</th>
+        <th class="d-none d-md-table-cell">핸드폰</th>
+        <th>알림받기여부</th>
+        <th>관심지역</th>
+        <th class="d-none d-md-table-cell" style="max-width: 250px;">디바이스토큰</th>
+        <th>알림발송</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for user in users.items %}
+      <tr>
+        <td>{{ user.CREAT_DT }}</td>
+        <td>{{ user.DISEASE_TYPE }}</td>
+        <td class="d-none d-md-table-cell">{{ user.OS }}</td>
+        <td class="d-none d-md-table-cell">{{ user.HP_NO }}</td>
+        <td>
+          {% if user.PUSH == '1' %}
+          <span class="badge badge-success">예</span>
+          {% else %}
+          <span class="badge badge-secondary">아니오</span>
+          {% endif %}
+        </td>
+        <td>{{ user.INTEREST_REGION }}</td>
+        <td class="d-none d-md-table-cell text-truncate" style="max-width: 250px;">{{ user.TOKEN }}</td>
+        <td>
+          <button type="button" class="btn btn-primary btn-sm btn-send-message" data-toggle="modal" data-target="#pushToDevicesModal" data-token="{{ user.TOKEN }}">
+            알림
+          </button>
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+
+<div class="modal fade" id="pushToDevicesModal" tabindex="-1" role="dialog" aria-labelledby="pushToDevicesModalTitle" aria-hidden="true">
+  <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLongTitle">개별 사용자에게 메세지 발송</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form>
+          <div class="form-group row">
+            <label for="push-notification-message-title" class="col-sm-2 col-form-label text-right">디바이스 토큰</label>
+            <div class="col-sm-10">
+              <input type="text" class="form-control" id="push-notification-device-token" value="" placeholder="디바이스 토큰 입력">
+            </div>
+          </div>
+          <div class="form-group row">
+            <label for="push-notification-message-title" class="col-sm-2 col-form-label text-right">제목</label>
+            <div class="col-sm-10">
+              <input type="text" class="form-control" id="push-notification-message-title" value="" placeholder="제목 입력">
+            </div>
+          </div>
+          <div class="form-group row">
+            <label for="push-notification-message-body" class="col-sm-2 col-form-label text-right">내용</label>
+            <div class="col-sm-10">
+              <textarea type="text" class="form-control" id="push-notification-message-body" value="" rows=3 placeholder="내용 입력"></textarea>
+            </div>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">취소</button>
+        <button type="button" class="btn btn-primary" id="push-notification-send-btn">발송하기</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+{{render_pagination(users)}}
+<!--  -->
+{% endblock %}
+
+<!-- footer -->
+{% block footer %}
+
+<script type="text/javascript">
+  // highlight search keyword
+  $(document).ready(function () {
+    $('.table tbody').mark('{{condition_value}}');
+    initPushToDevicesBtn();
+  });
+
+  function initPushToDevicesBtn() {
+    $('#pushToDevicesModal').on('show.bs.modal', function (e) {
+      var deviceToken = $(e.relatedTarget).data('token');
+  
+      $('#push-notification-device-token').val(deviceToken);
+      $('#push-notification-message-title').val("");
+      $('#push-notification-message-body').val("");
+    });
+    
+    initPushNotificationSendBtn(getTopicPushNotificationData, '/api/push/send/devices');
+  }
+
+  function getTopicPushNotificationData() {
+    return {
+      "devices": [$('#push-notification-device-token').val()],
+      "title": $('#push-notification-message-title').val(),
+      "body": $('#push-notification-message-body').val(),
+    };
+  }
+
+  
+</script>
+
+{% endblock %}

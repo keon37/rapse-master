@@ -1,0 +1,80 @@
+{% from "component/render_field.html" import render_field %}
+
+<!-- menu active  -->
+{% set active_menu_url = "/breakout/groupings/{}".format(diseaseType) %}
+<!--  -->
+{% set active_menu_name = "발생시 {} 권역설정".format(diseaseType.upper()) %}
+
+<!-- extends layout -->
+{% extends "/layout/base_content.html" %}
+
+<!-- title -->
+{% block title %}{{ active_menu_name }}{% endblock %}
+
+<!-- head -->
+{% block head %}{% endblock %}
+
+<!-- content -->
+{% block content %}
+
+<form method="POST" autocomplete="off">
+  <div class="row justify-content-md-center mt-4">
+    <div class="col-md-10">
+      <!--  -->
+      <input type="hidden" id="DISEASE_TYPE" name="DISEASE_TYPE" value="{{ diseaseType }}"> {%- if 'GROUPING_NO' in form -%} {{ render_field(form.GROUPING_NO) }} {%- endif -%}
+      <!--  -->
+      {%- if 'CREATE_DT' in form -%} {{ render_field(form.CREATE_DT) }} {%- endif -%}
+      <!--  -->
+      {{ render_field(form.START_DATE) }}
+      <!--  -->
+      {{ render_field(form.END_DATE) }}
+      <!--  -->
+      {%- if 'GROUPING_NO' in form -%}
+      <div class="form-group row">
+        <label class="col-md-4 col-form-label text-right">권역설정</label>
+        <div class="col-md-8 align-self-center">
+          <a href="/breakout/groupings/map/{{ diseaseType }}/{{ form.GROUPING_NO.data }}">바로가기</a>
+        </div>
+      </div>
+      {%- endif -%}
+      <!--  -->
+      <div class="form-group row mt-4">
+        <div class="col-md-4"></div>
+        <div class="col-md-8 align-self-center">
+          <button class="btn btn-primary btn-min-100 cursor-pointer" type="submit" name="action" value="{%- if 'GROUPING_NO' in form -%}update{%- else -%}create{%- endif -%}">
+            {%- if 'GROUPING_NO' in form -%} 수정 {%- else -%} 추가 {%- endif -%}
+          </button>
+          <a href="/breakout/groupings/{{ diseaseType }}" role="button" class="btn btn-secondary btn-min-100 ml-3">목록</a>
+
+          {%- if 'GROUPING_NO' in form -%}
+          <button class="btn btn-danger btn-min-100 cursor-pointer float-right" type="submit" name="action" value="delete" onclick="confirmDelete(event)">삭제</button>
+          {%- endif -%}
+        </div>
+      </div>
+    </div>
+  </div>
+</form>
+
+
+
+
+{% endblock %}
+
+<!-- footer -->
+{% block footer %}
+
+<script type="text/javascript">
+  $(document).ready(function () {
+    $("#START_DATE, #END_DATE").datepicker({
+      language: "ko",
+      autoclose: true,
+      todayHighlight: true
+    });
+  });
+
+  function confirmDelete(e) {
+    if (!confirm('정말로 삭제하시겠습니까?')) e.preventDefault();
+  }
+</script>
+
+{% endblock %}

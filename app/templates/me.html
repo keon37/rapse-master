@@ -1,0 +1,62 @@
+{% from "component/render_field.html" import render_field %}
+
+<!-- menu active  -->
+{% set active_menu_url = "/me" %}
+{% set active_menu_name = "내 정보 수정" %}
+
+<!-- extends layout -->
+{% extends "/layout/base_content.html" %}
+
+<!-- title -->
+{% block title %}내 정보 수정{% endblock %}
+
+<!-- head -->
+{% block head %}{% endblock %}
+
+<!-- content -->
+{% block content %}
+
+  <form method="POST" autocomplete="off">
+    <div class="row justify-content-md-center mt-4">
+      <div class="col-md-10">
+        {{ render_field(form.USER_ID) }}
+        {{ render_field(form.USER_PW) }}
+        {{ render_field(form.USER_NM) }}
+        {{ render_field(form.USER_COMP) }}
+        {{ render_field(form.USER_HP_NO) }}
+        {{ render_field(form.USER_EMAIL) }}
+        <div class="form-group row">
+          <div class="col-md-4"></div>
+          <div class="col-md-8 align-self-center">
+            <small class="text-color-description">* '패스워드'는 변경시에만 입력</small>
+          </div>
+        </div>
+        <div class="form-group row mt-4">
+          <div class="col-md-4"></div>
+          <div class="col-md-8 align-self-center">
+            <button class="btn btn-primary btn-min-100 cursor-pointer" type="submit">
+              수정
+            </button>
+            <a href="/normal/fmd" role="button" class="btn btn-secondary btn-min-100 ml-3">취소</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
+
+
+
+{% endblock %}
+
+<!-- footer -->
+{% block footer %}
+
+<script type="text/javascript">
+
+  $(document).ready(function() {
+
+  });
+
+</script>
+
+{% endblock %}

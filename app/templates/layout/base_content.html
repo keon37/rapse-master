@@ -1,0 +1,27 @@
+<!-- extends layout -->
+{% extends "/layout/base.html" %}
+
+<!-- content -->
+{% block content_base %}
+<!--  -->
+{% include '/component/nav_left.html' %}
+
+<div id="content">
+  {% include '/component/nav_top.html' %}
+  <div class="container">
+    {% include '/component/flash.html' %}
+    <!-- main content -->
+    {% block content %}{% endblock %}
+  </div>
+</div>
+
+<div class="overlay"></div>
+
+{% endblock %}
+
+<!-- footer -->
+{% block footer_base %}
+<!--  -->
+{%- block footer %}{% endblock -%}
+<!--  -->
+{% endblock %}

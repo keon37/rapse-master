@@ -1,0 +1,24 @@
+<!-- menu active -->
+{% set active_menu_url = "/facilities/{}/scale".format(diseaseType) %}
+<!--  -->
+{% set active_menu_name = "{} 시설 규모".format(diseaseType.upper()) %}
+
+<!-- extends layout -->
+{% extends "/public/layout/base_map.html" %}
+
+<!-- title -->
+{% block title %}{{ active_menu_name }}{% endblock %}
+
+<!-- footer -->
+{% block footer %}
+
+<script type="text/javascript" src="{{ url_for('static', filename='js/script-map-facilities.js') }}"></script>
+
+<script type="text/javascript">
+  diseaseType = "{{ diseaseType }}";
+  $(document).ready(function () {
+    initForScale(diseaseType);
+  });
+</script>
+
+{% endblock %}

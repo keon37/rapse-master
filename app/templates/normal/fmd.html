@@ -1,0 +1,54 @@
+<!-- menu active -->
+{% set active_menu_url = "/normal/fmd" %}
+<!--  -->
+{% set active_menu_name = "평시 FMD 권역화" %}
+
+<!-- extends layout -->
+{% extends "/layout/base_map.html" %}
+
+<!-- title -->
+{% block title %}{{ active_menu_name }}{% endblock %}
+
+<!-- footer -->
+{% block footer %}
+
+<script type="text/javascript" src="{{ url_for('static', filename='js/script-map-normal.js') }}"></script>
+
+<script type="text/javascript">
+  $(document).ready(function () {
+    var species = [{
+      label: "돼지",
+      checked: true,
+      bind: "AI센터"
+    }, {
+      label: "소",
+      bind: "가축시장"
+    }];
+
+    var facilities = [{
+      label: "도축장",
+      checked: true
+    }, {
+      label: "사료공장",
+      checked: true
+    }, {
+      label: "종축장",
+      checked: true
+    }, {
+      label: "AI센터",
+      checked: true
+    }, {
+      label: "가축분뇨처리장",
+      checked: true
+    }, {
+      label: "가축시장",
+      checked: false,
+      disabled: true
+    }];
+
+    initMapControlsForNormal("fmd", species, facilities);
+    // $("#map-controls-go-button").trigger("click");
+  });
+</script>
+
+{% endblock %}

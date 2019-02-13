@@ -1,0 +1,29 @@
+<!-- extends layout -->
+{% extends "/layout/base.html" %}
+
+<!-- content -->
+{% block content_base %}
+<!--  -->
+{% if isApp|default('false') == 'false' %} {% include '/component/nav_left.html' %} {% endif %}
+
+<div id="content">
+  {% if isApp|default('false') == 'false' %} {% include '/public/component/nav_top.html' %} {% endif %}
+  <div id="map-wrapper">
+    {% include '/component/flash.html' %}
+    <!-- main content -->
+    {% block content %}{% endblock %}
+  </div>
+</div>
+
+<div class="overlay"></div>
+
+{% endblock %}
+
+<!-- footer -->
+{% block footer_base %}
+<!--  -->
+{%- block footer %}{% endblock -%}
+<!--  -->
+{% endblock %}
+
+

@@ -1,0 +1,13 @@
+version: '3'
+services:
+  rapse:
+    container_name: rapse-current
+    image: rapse
+    build: .
+    restart: always
+    volumes:
+      - ./:/app/rapse
+      - /tmp/rapse:/tmp
+    working_dir: /app/rapse
+    command: ./run_on_docker.sh
+  

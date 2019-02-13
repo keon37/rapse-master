@@ -1,0 +1,38 @@
+{% from "component/render_field.html" import render_field %}
+
+<!-- extends layout -->
+{% extends "/layout/base_login_and_signup.html" %}
+
+<!-- title -->
+{% block title %}회원가입{% endblock %}
+
+<!-- content -->
+{% block content %}
+
+
+<form class="form-sign form-signup" method="POST" action="">
+  {% include '/component/flash.html' %}
+  <!--  -->
+  {{ render_field(form.USER_ID) }}
+  <!--  -->
+  {{ render_field(form.USER_PW) }}
+  <!--  -->
+  {{ render_field(form.USER_NM) }}
+  <!--  -->
+  {{ render_field(form.USER_COMP) }}
+  <!--  -->
+  {{ render_field(form.USER_HP_NO) }}
+  <!--  -->      
+  {{ render_field(form.USER_EMAIL) }}
+  <!--  -->      
+  <button class="btn btn-lg btn-primary btn-block cursor-pointer" type="submit">회원가입</button>
+  <div class="mt-3 text-center">
+    <label><a href="/login">로그인</a></label>
+  </div>
+</form>
+
+
+{% endblock %}
+
+<!-- footer -->
+{% block footer %}{% endblock %}

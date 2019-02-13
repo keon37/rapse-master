@@ -1,0 +1,33 @@
+{% include '/component/handlebars-template.hbs' %}
+<!--  -->
+{% include '/component/handlebars-template-places.hbs' %}
+<!--  -->
+{% if isApp|default('false') == 'false' %}
+<script type="text/javascript" src="/bootstrap-slider-10.0.0/js/bootstrap-slider.min.js?q=20180719"></script>
+<script type="text/javascript" src="/bootstrap-select-1.13.0-beta/js/bootstrap-select.min.js?q=20180719"></script>
+<script type="text/javascript" src="/bootstrap-select-1.13.0-beta/js/i18n/defaults-ko_KR.min.js?q=20180719"></script>
+{% endif %}
+
+<script type="text/javascript" src="/js/spin.min.js?q=20180719"></script>
+<script type="text/javascript" src="/js/chroma.min.js?q=20180719"></script>
+<script type="text/javascript" src="/js/handlebars-v4.0.11.js?q=20180719"></script>
+
+<script type="text/javascript" src="/leaflet/leaflet.js?q=20180719"></script>
+<script type="text/javascript" src="/leaflet-plugin/leaflet.spin.min.js?q=20180719"></script>
+<script type="text/javascript" src="/leaflet-plugin/leaflet.markercluster.min.js?q=20180719"></script>
+<script type="text/javascript" src="/leaflet-plugin/leaflet.featuregroup.subgroup.js?q=20180719"></script>
+<script type="text/javascript" src="/leaflet-plugin/leaflet.groupedlayercontrol.js?q=20180719"></script>
+<script type="text/javascript" src="/leaflet-plugin/leaflet.locatecontrol.min.js?q=20180719"></script>
+<script type="text/javascript" src="/leaflet-plugin/leaflet-routing-machine-3.2.8/leaflet-routing-machine.min.js?q=20180719"></script>
+
+{% if isApp|default('false') == 'false' %}
+<script type="text/javascript" src="/leaflet-plugin/leaflet-webgl-heatmap/webgl-heatmap.js?q=20180719"></script>
+<script type="text/javascript" src="/leaflet-plugin/leaflet-webgl-heatmap/leaflet-webgl-heatmap.js?q=20180719"></script>
+<script type="text/javascript" src="/leaflet-plugin/leaflet-bubble/leaflet-bubble.js?q=20180719"></script>
+<script type="text/javascript" src="/leaflet-plugin/leaflet-bubble/d3-interpolate.min.js?q=20180719"></script>
+<script type="text/javascript" src="/leaflet-plugin/leaflet-bubble/d3-scale.min.js?q=20180719"></script>
+<script type="text/javascript" src="/leaflet-plugin/leaflet-bubble/numeral.min.js?q=20180719"></script>
+{% endif %}
+
+<script type="text/javascript" src="{{ url_for('static', filename='js/script-map-leaflet-plugin.js') }}"></script>
+<script type="text/javascript" src="{{ url_for('static', filename='js/script-map.js') }}"></script>

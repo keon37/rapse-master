@@ -1,0 +1,78 @@
+{% from "component/render_field.html" import render_field %}
+
+<!-- menu active  -->
+{% set active_menu_url = "/manage/users" %}
+{% set active_menu_name = "사용자 관리" %}
+
+<!-- extends layout -->
+{% extends "/layout/base_content.html" %}
+
+<!-- title -->
+{% block title %}사용자 관리 - {{ form.USER_NM.data }} {% endblock %}
+
+<!-- head -->
+{% block head %}{% endblock %}
+
+<!-- content -->
+{% block content %}
+
+  <form method="POST" autocomplete="off">
+    <div class="row justify-content-md-center mt-4">
+      <div class="col-md-10">
+        {%- if 'USER_NO' in form -%}
+          {{ render_field(form.USER_NO) }}
+        {%- endif -%}
+        {%- if 'CREAT_DT' in form -%}
+          {{ render_field(form.CREAT_DT) }}
+        {%- endif -%}
+        
+        {{ render_field(form.USER_ID) }}
+        {{ render_field(form.USER_PW) }}
+        {{ render_field(form.USER_NM) }}
+        {{ render_field(form.USER_COMP) }}
+        {{ render_field(form.USER_HP_NO) }}
+        {{ render_field(form.USER_EMAIL) }}
+        {{ render_field(form.USER_ROLE) }}        
+        {%- if 'APPROVAL' in form -%}
+          {{ render_field(form.APPROVAL) }}      
+        {%- endif -%}
+        <div class="form-group row">
+          <div class="col-md-4"></div>
+          <div class="col-md-8 align-self-center">
+            <small class="text-color-description">* '패스워드'는 변경시에만 입력, '사용승인-미승인' 선택시 로그인 불가</small>
+          </div>
+        </div>
+        <div class="form-group row mt-4">
+          <div class="col-md-4"></div>
+          <div class="col-md-8 align-self-center">
+            <button class="btn btn-primary btn-min-100 cursor-pointer" type="submit" name="action" value="{%- if 'USER_NO' in form -%}update{%- else -%}create{%- endif -%}">
+              {%- if 'USER_NO' in form -%}
+                수정
+              {%- else -%}
+                추가
+              {%- endif -%}
+            </button>
+            <a href="/manage/users" role="button" class="btn btn-secondary btn-min-100 ml-3">목록</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
+
+
+
+
+{% endblock %}
+
+<!-- footer -->
+{% block footer %}
+
+<script type="text/javascript">
+
+  $(document).ready(function() {
+
+  });
+
+</script>
+
+{% endblock %}

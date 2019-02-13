@@ -1,0 +1,42 @@
+{
+  "editor.rulers": [140],
+  "workbench.colorCustomizations": {
+    "editorRuler.foreground": "#363636ff"
+  },
+  "editor.formatOnSave": true,
+  "[html]": {
+    "editor.formatOnSave": false
+  },
+  "editor.tabSize": 2,
+  "python.pythonPath": "~/VirtualEnvs/rapse/bin/python",
+  "python.linting.pylintEnabled": false,
+  "python.linting.flake8Enabled": true,
+  "python.linting.flake8Args": ["--max-line-length=140"],
+  "python.formatting.provider": "yapf",
+  "python.formatting.yapfArgs": [
+    "--style",
+    "{based_on_style: pep8, column_limit: 140, dedent_closing_brackets: true}"
+  ],
+  "search.exclude": {
+    "**/static/bootstrap*": true,
+    "**/static/js/jquery*": true,
+    "**/static/leaflet*": true
+  },
+  "beautify.language": {
+    // "js": {
+    //   "type": [
+    //     // "javascript",
+    //     // "json"
+    //   ],
+    //   "filename": [
+    //     // ".jshintrc",
+    //     // ".jsbeautifyrc"
+    //   ],
+    //   "ext": []
+    // },
+    // "css": ["css", "scss"],
+    // "html": ["htm", "html"]
+  },
+  "prettier.printWidth": 120,
+  "prettier.singleQuote": true,
+}

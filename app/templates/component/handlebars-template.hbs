@@ -1,0 +1,346 @@
+<!-- Template -->
+{% raw %}
+
+<script id="templates-form-group" type="text/x-handlebars-template">
+  {{#each .}}
+    <fieldset class="form-group">
+      <div class="row">
+        <legend class="col-sm-2 pt-0 pr-1 text-right">{{encodeMyString label}}</legend>
+        <div class="col px-0 pl-3 {{#if required}}required{{/if}}" id="map-controls-{{key}}">
+        </div>
+      </div>
+    </fieldset>  
+  {{/each}}  
+</script>
+
+<script id="templates-form-type" type="text/x-handlebars-template">
+  <input type="hidden" id="map-controls-type" value="{{.}}">
+</script>
+
+<script id="templates-form-checkbox" type="text/x-handlebars-template">
+  {{#each .}}
+    <div class="form-check custom-control custom-checkbox custom-control-inline">
+      <input class="custom-control-input" type="checkbox" name="checkbox-{{label}}" id="checkbox-{{label}}" value="{{label}}" data-bind="{{bind}}" {{#if checked}}checked{{/if}} {{#if disabled}}disabled{{/if}}>
+      <label class="custom-control-label" for="checkbox-{{label}}">
+        {{label}}
+      </label>
+    </div>
+  {{/each}}
+</script>
+
+<script id="templates-form-radio" type="text/x-handlebars-template">
+  {{#each items}}
+    <div class="form-check form-check-inline">
+      <input class="form-check-input" type="radio" name="radio-{{../group}}" id="radio-{{label}}" value="{{label}}" {{#if checked}}checked{{/if}} {{#if disabled}}disabled{{/if}}>
+      <label class="form-check-label" for="radio-{{label}}">
+        {{label}}
+      </label>
+    </div>
+  {{/each}}
+</script>
+
+<script id="templates-form-select" type="text/x-handlebars-template">
+  <div class="row pl-2 pr-4-2 mb-2">
+  {{#each .}}
+    <div class="col pl-2 pr-0 weight">
+      <label for="select-{{label}}">{{categoryToAbbreviation label}}</label>
+      <select class="form-control form-control-sm" id="select-{{label}}" {{#if disabled}}disabled{{/if}}>
+        <option value="1" {{#ifEquals default 1}}selected{{/ifEquals}}>1</option>
+        <option value="2" {{#ifEquals default 2}}selected{{/ifEquals}}>2</option>
+        <option value="3" {{#ifEquals default 3}}selected{{/ifEquals}}>3</option>
+        <option value="4" {{#ifEquals default 4}}selected{{/ifEquals}}>4</option>
+        <option value="5" {{#ifEquals default 5}}selected{{/ifEquals}}>5</option>
+        <option value="0" {{#ifEquals default 0}}selected{{/ifEquals}}>0</option>
+      </select>
+    </div>
+  {{/each}}
+  </div>
+</script>
+
+<script id="templates-form-level-slider" type="text/x-handlebars-template">
+  <input id="map-controls-level-slider" type="text" data-slider-ticks="[1, 2, 3, 4]" data-slider-ticks-labels='["<span class=&apos;oi oi-media-stop&apos;></span><br>대", "<span class=&apos;oi oi-grid-two-up&apos;></span><br>중", "<span class=&apos;oi oi-grid-three-up&apos;></span><br>소", "<span class=&apos;oi oi-grid-four-up&apos;></span><br>세분"]'
+    data-slider-min="1" data-slider-max="4" data-slider-step="1" data-slider-value="1" data-slider-tooltip="hide" />
+</script>
+
+<script id="templates-go-button" type="text/x-handlebars-template">
+  <button type="button" class="btn btn-primary btn-secondary btn-min-100" id="map-controls-go-button" disabled>조 회</button>
+</script>
+
+<script id="templates-clusters-table" type="text/x-handlebars-template">
+  <table class="table table-sm table-bordered clusters-table">
+    <thead class="thead-light">
+      <tr>
+        <th>번호</th>
+        <th>선택</th>
+        <th>권역 이름</th>
+        <th>알림발송</th>
+        <th>삭제</th>
+      </tr>
+    </thead>
+    <tbody id="map-controls-clusters-body" class="text-center">
+
+    </tbody>
+  </table>
+</script>
+
+<script id="templates-clusters-row" type="text/x-handlebars-template">
+  <tr data-cluster-number="{{number}}">
+    <td style="background-color:{{color}};" class="align-middle">{{number}}</td>
+    <td style="background-color:{{color}};"><button type="button" class="btn btn-primary btn-sm cluster-select-btn">선택</button></td>
+    <td><input class="form-control form-control-sm cluster-name-input" placeholder="권역명 입력" value="{{name}}"></td>
+    <td>
+      <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#pushNotificationModal">
+        알림
+      </button>
+    </td>
+    <td>
+      {{#ifEquals number 1}}
+      {{else}}
+        <button type="button" class="close" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      {{/ifEquals}}
+    </td>
+  </tr>
+</script>
+
+<script id="templates-clusters-add-button" type="text/x-handlebars-template">
+  <button type="button" class="btn btn-primary btn-secondary btn-sm" id="map-controls-clusters-add-button" disabled>권역 추가</button>
+</script>
+
+<script id="templates-clusters-push-button" type="text/x-handlebars-template">
+  <button type="button" class="btn btn-primary btn-secondary btn-sm float-right" data-toggle="modal" data-target="#pushNotificationModal" id="map-controls-clusters-push-button" disabled>전체 권역 알림</button>
+</script>
+
+<script id="templates-save-button" type="text/x-handlebars-template">
+  <button type="button" class="btn btn-primary btn-secondary btn-min-100" id="map-controls-save-button" disabled>저 장</button>
+  <a href="/breakout/groupings/{{.}}" class="btn btn-secondary btn-min-100" id="map-controls-cancel-button">취 소</a>
+</script>
+
+<script id="templates-download-link" type="text/x-handlebars-template">
+  <a class="btn btn-light btn-sm" id="map-controls-download-link" download><span class="oi oi-data-transfer-download"></span>&nbsp;&nbsp;시설정보 다운로드</button>
+</script>
+
+<script id="templates-table-independence-rate" type="text/x-handlebars-template">
+  <table class="table table-sm table-bordered">
+    <thead class="thead-light">
+      <tr>
+        <th colspan="2">자립도 수준</th>
+      </tr>
+      <tr>
+        <th>권역화 단계</th>
+        <th>자립도</th>
+      </tr>
+    </thead>
+    <tbody id="map-controls-table-independence-rate-body" class="text-center">
+    </tbody>
+  </table>
+</script>
+{{!-- 발생시 축종별 시설 자립도 제공 --}}
+<script id="templates-table-facilities-independence-rate" type="text/x-handlebars-template">
+  <table class="table table-sm table-bordered">
+    <thead class="thead-light">
+      <tr>
+        <th colspan="3">시설별 공급 자립도</th>
+      </tr>
+      <tr>
+        <th>시설</th>
+        <th>{{species1}}</th> 
+        <th>{{species2}}</th>  
+      </tr>
+    </thead>
+    <tbody id="map-controls-table-independence-rate-body" class="text-center">
+    </tbody>
+  </table>
+</script>
+
+<script id="templates-table-facilities-independence-rate-grouping" type="text/x-handlebars-template">
+  <table class="table table-sm table-bordered" style="table-layout:fixed;">
+    <colgroup>
+        <col style="width: 40%" />
+        <col style="width: 30%" />
+        <col style="width: 30%" />
+    </colgroup>
+    <thead class="thead-light">
+      <tr>
+        <th colspan="3">선택 권역 시설별 공급 자립도</th>
+      </tr>
+      <tr>
+        <th>시설</th>
+        <th>{{species1}}</th>
+        <th>{{species2}}</th>
+      </tr>
+    </thead>
+    <tbody id="map-controls-table-independence-rate-body-grouping" class="text-center">
+      <tr>
+        <td>도축장</td>
+        <td id="f1-v1"></td>
+        <td id="f1-v2"></td>
+      </tr>
+      <tr>
+        <td>사료공장</td>
+        <td id="f2-v1"></td>
+        <td id="f2-v2"></td>
+      </tr>
+      <tr>
+        <td>종축장</td>
+        <td id="f3-v1"></td>
+        <td id="f3-v2"></td>
+      </tr>
+      <tr>
+        <td>분뇨처리장</td>
+        <td id="f4-v1"></td>
+        <td id="f4-v2"></td>
+      </tr>
+    </tbody>
+  </table>
+</script>
+
+<script id="templates-table-row-independence-rate" type="text/x-handlebars-template">
+  {{#each .}}
+    <tr>
+      <td>{{levelToString level}}</td>
+      <td>{{perCentage rate}}</td>
+    </tr>
+  {{/each}}
+</script>
+
+<script id="templates-table-row-independence-rate-for-breakout" type="text/x-handlebars-template">
+  {{#each .}}
+    <tr>
+      <td>{{facility}}</td>
+      <td>{{perCentage rate}}</td>
+      <td>{{perCentage rate2}}</td>
+    </tr>
+  {{/each}}
+</script>
+
+<script id="templates-facility-popup" type="text/x-handlebars-template">
+  <dl class="row facility-popup" data-facility-id="{{id}}">
+    {{#if name}}<dt class="col-3 text-right">시설명</dt><dd class="col-9">{{name}}&nbsp;</dd>{{/if}}
+    {{#if addr}}<dt class="col-3 text-right">주소</dt><dd class="col-9">{{addr}}&nbsp;</dd>{{/if}}
+    {{#if phone}}<dt class="col-3 text-right">전화번호</dt><dd class="col-9">{{phone}}&nbsp;</dd>{{/if}}
+    {{#if cat}}<dt class="col-3 text-right">시설구분</dt><dd class="col-9">{{cat}}&nbsp;</dd>{{/if}}
+    {{#if species}}<dt class="col-3 text-right">축종</dt><dd class="col-9">{{species}}&nbsp;</dd>{{/if}}
+    {{#if info}}<dt class="col-3 text-right">기타정보</dt><dd class="col-9">{{#if cat_detail}}({{cat_detail}}) {{/if}}{{info}}&nbsp;</dd>{{/if}}
+    {{#if scale}}<dt class="col-3 text-right">규모</dt><dd class="col-9">{{formatNumber scale}}&nbsp;</dd>{{/if}}
+    <div class="col-6 mt-2 text-center"><button type="btn" class="btn btn-primary btn-sm btn-min-100 btn-find-route">경로탐색</button></div><div class="col-6 mt-2 text-center"><button type="btn" class="btn btn-primary btn-sm btn-min-100 btn-open-map">외부지도 경로탐색</button></div>
+  </dl>
+</script>
+
+<script id="templates-bottom-cluster-info" type="text/x-handlebars-template">
+  <div class="row mr-0">
+    <div class="bottom-cluster-info-color" style="background-color:{{clusterColor}};"></div>
+    <div class="bottom-cluster-info-name align-self-center">{{clusterName}}</div>
+    {{#if clusterRegions}}
+      <div class="col bottom-cluster-info-regions align-self-center">{{clusterRegions}}</div>
+      <button class="btn btn-sm btn-secondary bottom-cluster-info-more-btn" data-toggle="modal" data-target="#regionsInfoModal">상세보기</button>
+    {{/if}}
+  </div>
+  <hr class="mt-1 mb-1 bottom-cluster-info-hr">
+</script>
+
+<script id="templates-tab-head" type="text/x-handlebars-template">
+  {{#each .}}
+    <a class="nav-item nav-link {{#if @first}}active{{/if}}" id="nav-{{replaceSlashToDash label}}-tab" data-toggle="tab" href="#nav-{{replaceSlashToDash label}}" role="tab" aria-controls="nav-{{replaceSlashToDash label}}"
+      aria-selected="{{#if active}}true{{else}}false{{/if}}">{{label}}</a>
+  {{/each}}
+</script>
+
+<script id="templates-tab-content" type="text/x-handlebars-template">
+  {{#each .}}
+    <div class="tab-pane fix-table-head fade {{#if @first}}show active{{/if}}" id="nav-{{replaceSlashToDash label}}" role="tabpanel" aria-labelledby="nav-{{replaceSlashToDash label}}-tab">
+      <table id="map-controls-table-facility-info-{{replaceSlashToDash label}}" class="table table-sm table-hover mb-2">
+        <thead id="map-controls-table-head-facility-info-{{replaceSlashToDash label}}" class="thead-light">
+          <tr class="d-table-row">
+            {{#ifEquals label "기타"}}
+              <th class="facility-info-category d-none d-md-table-cell">구분</th>
+            {{else ifEquals label "가축분뇨/비료시설"}}
+              <th class="facility-info-category d-none d-md-table-cell">구분</th>
+            {{/ifEquals}}
+            <th class="facility-info-species d-none d-md-table-cell">축종</th>
+            <th class="facility-info-name d-table-cell">시설명</th>
+            <th class="facility-info-address d-table-cell">주소</th>
+            <th class="facility-info-phone d-none d-md-table-cell">전화</th>
+            <th class="facility-info-info d-none d-md-table-cell">기타</th>
+            <th class="facility-info-marker-wrapper d-table-cell d-md-none"></th>
+          </tr>
+        </thead>
+        <tbody id="map-controls-table-body-facility-info-{{replaceSlashToDash label}}" class="facility-info-tbody">
+        </tbody>
+      </table>
+    </div>
+  {{/each}}
+</script>
+
+<script id="templates-table-row-facility-info" type="text/x-handlebars-template">
+  <tr class="d-table-row" data-cluster="{{cluster}}" data-facility-id="{{id}}">
+    {{#if etc}}
+      <td class="facility-info-category d-none d-md-table-cell">{{cat}}</td>
+    {{/if}}
+    <td class="facility-info-species d-none d-md-table-cell">{{species}}</td>
+    <td class="facility-info-name d-table-cell">{{name}}</td>
+    <td class="facility-info-address d-table-cell">{{addr}}</td>
+    <td class="facility-info-phone d-none d-md-table-cell">{{phone}}</td>
+    <td class="facility-info-info d-none d-md-table-cell">{{#if cat_detail}}({{cat_detail}}) {{/if}}{{info}}</td>
+    <td class="facility-info-marker-wrapper d-table-cell d-md-none"><span class="fa fa-map-pin facility-info-marker"></span></td>
+  </tr>
+</script>
+
+<script id="templates-table-scale-info" type="text/x-handlebars-template">
+  <nav id="map-controls-bottom-scale-info-tabs">
+    {{#each facilityTypes}}
+      <button type="button" class="btn btn-sm {{#if @first}}btn-primary{{else}}btn-light{{/if}}" data-category="{{this}}">{{this}}</button>
+    {{/each}} 
+  </nav>
+  <table class="table table-sm mb-0" style="table-layout:fixed;" id="map-controls-bottom-scale-info-table">
+    <thead class="thead-light">
+      <tr>
+        <th class="pl-2" style="width: 120px;"></th>
+        <th class="" style="width: 65px;"></th>
+        <th class="text-right" style="width: 10%">산란계</th>
+        <th class="text-right" style="width: 10%">종계</th>
+        <th class="text-right" style="width: 10%">육계</th>
+        <th class="text-right" style="width: 10%">토종닭</th>
+        <th class="text-right right-border" style="width: 10%"><u>닭 총계</u></th>
+        <th class="text-right" style="width: 10%">육용오리</th>
+        <th class="text-right" style="width: 10%">종오리</th>
+        <th class="text-right right-border" style="width: 10%"><u>오리 총계</u></th>
+        <th class="text-right right-border" style="width: 10%"><u>돼지</u></th>
+        <th class="text-right" style="width: 10%">젖소</th>
+        <th class="text-right" style="width: 10%">고기소</th>
+        <th class="text-right right-border" style="width: 10%"><u>소 총계</u></th>
+        <th class="text-right scale-production d-none" style="width: 10%">생산능력</th>
+      </tr>
+    </thead>
+    <tbody id="map-controls-table-body-scale-info-region">
+    </tbody>
+    <tbody id="map-controls-table-body-scale-info-cluster">
+    </tbody>
+    <tbody id="map-controls-table-body-scale-info-country">
+    </tbody>
+  </table>
+</script>
+
+<script id="templates-table-row-scale-info" type="text/x-handlebars-template">
+  <tr>
+    {{#if section}}<th class="table-body-light pl-2" rowspan="2">{{section}}{{#if color}}<br><span class="scale-cluster-color" style="background-color:{{color}};"></span>{{/if}}</th>{{/if}}
+    <th class="table-body-light">{{target}}</th>
+    <td class="text-right">{{formatNumber chicken_sanlan}}</td>
+    <td class="text-right">{{formatNumber chicken_jong}}</td>
+    <td class="text-right">{{formatNumber chicken_yuk}}</td>
+    <td class="text-right">{{formatNumber chicken_tojong}}</td>
+    <td class="text-right right-border">{{formatNumber chicken}}</td>
+    <td class="text-right">{{formatNumber duck_yukyong}}</td>
+    <td class="text-right">{{formatNumber duck_jong}}</td>
+    <td class="text-right right-border">{{formatNumber duck}}</td>
+    <td class="text-right right-border">{{formatNumber pig}}</td>
+    <td class="text-right">{{formatNumber cow_milk}}</td>
+    <td class="text-right">{{formatNumber cow_beef}}</td>
+    <td class="text-right right-border">{{formatNumber cow}}</td>
+    <td class="text-right scale-production d-none">{{formatNumber production}}</td>
+  </tr>
+</script>
+
+<!-- -->
+{% endraw %}

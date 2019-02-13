@@ -1,0 +1,62 @@
+<!--  -->
+{% from "component/pagination.html" import render_pagination %}
+
+<!-- menu active -->
+{% set active_menu_url = "/breakout/groupings/{}".format(diseaseType) %}
+<!--  -->
+{% set active_menu_name = "발생시 {} 권역설정".format(diseaseType.upper()) %}
+
+<!-- extends layout -->
+{% extends "/layout/base_content.html" %}
+
+<!-- title -->
+{% block title %}{{ active_menu_name }}{% endblock %}
+
+<!-- content -->
+{% block content %}
+
+<div class="table-responsive">
+  <table class="table table-hover table-clickable-row mt-5">
+    <thead class="thead-light">
+      <tr>
+        <th>NO</th>
+        <th>시작일</th>
+        <th>종료일</th>
+        <th>생성시간</th>
+        <th>권역설정</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for grouping in groupings.items %}
+      <tr data-href='/breakout/groupings/{{ diseaseType }}/{{ grouping.GROUPING_NO }}'>
+        <td>{{ grouping.GROUPING_NO }}</td>
+        <td>{{ grouping.START_DATE.strftime('%Y-%m-%d') }}</td>
+        <td>{{ grouping.END_DATE.strftime('%Y-%m-%d') }}</td>
+        <td>{{ grouping.CREATE_DT }}</td>
+        <td>
+          <a href="/breakout/groupings/map/{{ diseaseType }}/{{ grouping.GROUPING_NO }}">바로가기</a>
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+
+{{render_pagination(groupings)}}
+
+<a href="/breakout/groupings/{{ diseaseType }}/create" role="button" class="btn btn-primary btn-sm">권역설정 추가</a>
+
+{% endblock %}
+
+<!-- footer -->
+{% block footer %}
+
+<script type="text/javascript">
+  $(document).ready(function () {
+    $(".table-clickable-row tbody tr").click(function () {
+      window.location = $(this).data("href");
+    });
+  });
+</script>
+
+{% endblock %}

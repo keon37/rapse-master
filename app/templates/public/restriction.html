@@ -1,0 +1,50 @@
+<!-- menu active -->
+{% set active_menu_url = "/public/restriction" %}
+<!--  -->
+{% set active_menu_name = diseaseMenuName + " 이동제한 정보" %}
+
+<!-- extends layout -->
+{% extends "/public/layout/base_content.html" %}
+
+<!-- title -->
+{% block title %}{{ active_menu_name }}{% endblock %}
+
+<!-- head -->
+{% block head %}
+<link rel="stylesheet" href="/css/fix-scroll.css">
+{% endblock %}
+
+<!-- content -->
+{% block content %}
+
+<div class="container">
+  {% if not grouping_exist %}
+      <p class="mt-4">현재 설정 권역이 존재하지 않습니다. 아래는 이동제한 정보 예시 입니다.</p>
+      <hr>
+  {% endif %}
+  <p class="mt-4">{{ diseaseMenuName }} 발생권역은 <strong>{{ clusters_name }}</strong> 입니다.</p>
+  <p>발생권역의 {{ diseaseMenuName }} 감수성 가축 관련 종사자와 발생권역 시군구에 등록된 <strong>모든 축산차량은 비발생권역(발생권역 제외) 방문을 {{ start_date }} 부터 {{ end_date }} 까지 금지합니다.</strong></p>
+  <p>아울러, 비발생권역의 축산시설은 모든 출입차량에 대하여 발생권역에서 방문하였는지 여부를 반드시 확인하고 이상이 있는 경우 관할 시군구에 즉시 신고하시기 바랍니다.</p>
+  {% if diseaseType == 'fmd' %}
+  <ul>
+    <li>구제역 감수성 가축 : 소, 돼지, 면양, 산양, 사슴 등의 우제류</li>
+    <li>종사자 : 구제역 감수성 가축 관련 농장주 및 종사자, 수의사, 인공수정사, 헬퍼, 원유운반자, 분뇨운반자, 가축 운반차량, 살처분 사체운반자, 살처분 및 매몰 동원 인력, 농가 시설 장비 수리자, 깔짚 운반자(볏짚, 톱밥), 사료(조사료 포함) 운반자, 동물약품 운반자</li>
+    <li>축산차량 : 종사자가 영업목적으로 운영하는 모든 차량</li>
+    <li>축산시설 : 감수성 가축  사육시설, 도축장, 집유장, 사료공장, 가축시장, 가축검정기관, 종축장, 비료공장, 분뇨처리업체</li>
+  </ul>
+  {% else %}
+  <ul>
+    <li>HPAI 감수성 가축 : 닭 오리 칠면조 메추리 거위 등</li>
+    <li>종사자 : 임상수의사, 가축분뇨 기사, 동물약품· 사료·축산기자재 판매자, 농장관리자, 가축운송기사, 사료운반기사, 컨설팅·방역요원 등 가금류 축산농장 및 관련작업장 등에 종사하는 모든 사람</li>
+    <li>축산차량 : 종사자가 영업목적으로 운영하는 모든 차량</li>
+    <li>축산시설 : 감수성 가축 사육시설, 도계장, 도압장, 사료공장, 전통시장, 부화장, 가축검정기관, 종압장, 종계장, 비료공장, 분뇨처리시설 등 </li>
+  </ul>
+  {% endif %}
+</div>
+
+{% endblock %}
+
+<!-- footer -->
+{% block footer %}
+<!--  -->
+{% endblock %}

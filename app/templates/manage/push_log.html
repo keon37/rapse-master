@@ -1,0 +1,29 @@
+<!-- menu active  -->
+{% set active_menu_url = "/manage/push/log" %}
+<!--  -->
+{% set active_menu_name = "알림 메세지 발송 로그" %}
+
+<!-- extends layout -->
+{% extends "/layout/base_content.html" %}
+
+<!-- title -->
+{% block title %}{{ active_menu_name }}{% endblock %}
+
+<!-- head -->
+{% block head %}
+<link rel="stylesheet" href="/css/fix-scroll.css">
+{% endblock %}
+
+<!-- content -->
+{% block content %}
+
+<div class="row mt-5">
+  <pre class="push-log"><code>{{ log }}</code></pre>
+</div>
+
+{% endblock %}
+
+<!-- footer -->
+{% block footer %}
+<!--  -->
+{% endblock %}
