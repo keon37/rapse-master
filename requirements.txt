@@ -18,7 +18,7 @@ geojson==2.3.0
 idna==2.6
 inflect==0.2.5
 itsdangerous==0.24
-Jinja2==2.10
+Jinja2==2.11.3
 keyring==13.1.0
 keyrings.alt==3.0
 lxml==4.2.1
